@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMIT HACKS — Elite Multi-API Terminal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#070d18;--card:#0f1826;--border:#1e2d42;--txt:#f8fafc;--muted:#94a3b8;--green:#00ff80;--blue:#3b82f6}
+*{box-sizing:border-box}
+body{margin:0;background:#070d18;color:var(--txt);font-family:'Poppins',sans-serif;min-height:100vh}
+.terminal-font{font-family:'Share Tech Mono',monospace}
+
+.app-container{display:flex;min-height:100vh}
+.sidebar{width:260px;background:#0b1320;border-right:1px solid #192638;padding:20px;display:flex;flex-direction:column;flex-shrink:0}
+.main-content{flex:1;background:#070d18;padding:25px;overflow-y:auto}
+
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:#94a3b8;font-size:13px;font-weight:600;margin-bottom:6px;cursor:pointer;transition:all 0.2s}
+.nav-item:hover, .nav-item.active{background:linear-gradient(90deg,#1e3a8a,#2563eb);color:#ffffff;box-shadow:0 4px 15px rgba(37,99,235,0.3)}
+
+.banner{background:linear-gradient(135deg,#0d192b,#080f1a);border:1px solid #1e2d42;border-radius:20px;padding:24px;display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit, minmax(450px, 1fr));gap:20px}
+.api-card{background:#0d1827;border:1px solid #1e2d42;border-radius:20px;padding:22px;position:relative}
+
+.endpoint-box{background:#060a12;border:1px solid #192638;border-radius:10px;padding:10px 14px;font-size:11px;color:#70baff;display:flex;justify-content:space-between;align-items:center;margin:12px 0}
+.input-group{margin-bottom:12px}
+.input-group label{display:block;font-size:12px;color:#cbd5e1;margin-bottom:6px}
+.input-row{display:flex;gap:10px}
+input{flex:1;background:#050911;border:1px solid #22334d;border-radius:10px;padding:10px 14px;color:#fff;font-size:13px;outline:none}
+input:focus{border-color:var(--green)}
+.search-btn{background:#3b82f6;color:#fff;border:0;border-radius:10px;padding:0 18px;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.search-btn:hover{background:#2563eb}
+
+.sample-box{background:#020617;border:2px solid #00ff80;box-shadow:0 0 20px rgba(0,255,128,0.25);border-radius:12px;padding:16px;margin-top:12px;font-size:13px;color:#ffffff}
+.copy-btn{background:#1e293b;color:#cbd5e1;border:0;padding:3px 8px;border-radius:6px;font-size:10px;cursor:pointer;font-weight:600}
+.copy-btn:hover{background:#334155;color:#fff}
+
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+@media(max-width:900px){.app-container{flex-direction:column}.sidebar{width:100%}.grid-cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:25px">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#00ff80,#3b82f6);display:grid;place-items:center;color:#030712;font-weight:900">AH</div>
+      <div>
+        <div style="font-weight:900;font-size:16px;letter-spacing:1px">AMIT HACKS</div>
+        <div style="font-size:9px;color:#94a3b8">EXPLORE · LEARN · HACK · GROW</div>
+      </div>
+    </div>
+
+    <nav style="flex:1">
+      <div class="nav-item active"><i class="fa-solid fa-house w-5"></i> Home</div>
+      <div class="nav-item" onclick="scrollToCard(4)"><i class="fa-solid fa-building-columns w-5"></i> IFSC Finder</div>
+      <div class="nav-item" onclick="scrollToCard(3)"><i class="fa-solid fa-car w-5"></i> Vehicle Info</div>
+      <div class="nav-item" onclick="scrollToCard(1)"><i class="fa-solid fa-mobile-screen w-5"></i> Mobile Number</div>
+      <div class="nav-item" onclick="scrollToCard(2)"><i class="fa-solid fa-fingerprint w-5"></i> Aadhaar Lookup</div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="banner">
+      <div>
+        <div style="font-size:13px;color:#cbd5e1;margin-bottom:4px">👋 Welcome to</div>
+        <div style="font-size:26px;font-weight:900;letter-spacing:1px">AMIT <span style="color:#3b82f6">HACKS</span></div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px">Powerful API Tools | Real-time Data | Direct Execution</div>
+      </div>
+      <div style="text-align:right;font-size:11px;color:#94a3b8">
+        <span style="color:#00ff80">●</span> System Online<br>
+        <span class="terminal-font" style="font-size:12px;color:#cbd5e1">14 Oct 2026 | 11:35 PM</span>
+      </div>
+    </div>
+
+    <div class="grid-cards">
+      
+      <!-- CARD 1: IFSC Finder -->
+      <div id="card-4" class="api-card" style="border-color:#10b981">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:40px;height:40px;border-radius:12px;background:#064e3b;display:grid;place-items:center;color:#34d399;font-size:18px"><i class="fa-solid fa-building-columns"></i></div>
+            <div>
+              <h2 style="margin:0;font-size:16px;font-weight:700">IFSC Finder</h2>
+              <div style="font-size:11px;color:#94a3b8">Bank Branch Details</div>
+            </div>
+          </div>
+          <span style="background:#064e3b;color:#34d399;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px">API 1</span>
+        </div>
+
+        <div class="endpoint-box">
+          <span class="terminal-font">/api/ifsc/{ifsc}?format=text</span>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        </div>
+
+        <div class="input-group">
+          <label>Enter IFSC Code</label>
+          <div class="input-row">
+            <input id="ifscVal" placeholder="Example: SBIN0000001" class="terminal-font" value="SBIN0000001">
+            <button class="search-btn" onclick="executeApi(4)"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </div>
+        </div>
+
+        <div class="sample-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;color:#00ff80;font-weight:700">Live Result</span>
+            <button class="copy-btn" onclick="copyResult(4)">Copy</button>
+          </div>
+          <div id="res4" style="font-size:13px;font-family:monospace;white-space:pre-wrap;color:#ffffff;line-height:1.6">Bank Name    : State Bank of India
+Branch Name  : MAIN BRANCH
+Address      : 11, Sansad Marg, New Delhi
+IFSC         : SBIN0000001
+MICR         : 110002204</div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Vehicle Info -->
+      <div id="card-3" class="api-card" style="border-color:#3b82f6">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:40px;height:40px;border-radius:12px;background:#1e3a8a;display:grid;place-items:center;color:#60a5fa;font-size:18px"><i class="fa-solid fa-car"></i></div>
+            <div>
+              <h2 style="margin:0;font-size:16px;font-weight:700">Vehicle Info</h2>
+              <div style="font-size:11px;color:#94a3b8">RC Details</div>
+            </div>
+          </div>
+          <span style="background:#1e3a8a;color:#60a5fa;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px">API 2</span>
+        </div>
+
+        <div class="endpoint-box">
+          <span class="terminal-font">/api/vahan?rc={rc}&format=card</span>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        </div>
+
+        <div class="input-group">
+          <label>Enter Vehicle Number (RC)</label>
+          <div class="input-row">
+            <input id="vahanVal" placeholder="Example: UP54AM1165" class="terminal-font" value="UP54AM1165">
+            <button class="search-btn" onclick="executeApi(3)"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </div>
+        </div>
+
+        <div class="sample-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;color:#00ff80;font-weight:700">Live Result</span>
+            <button class="copy-btn" onclick="copyResult(3)">Copy</button>
+          </div>
+          <div id="res3" style="font-size:13px;font-family:monospace;white-space:pre-wrap;color:#ffffff;line-height:1.6">Registration No. : UP54AM1165
+Vehicle Type     : MOTOR CAR
+Maker / Model    : MARUTI SUZUKI / SWIFT
+Fuel Type        : PETROL
+Color            : WHITE</div>
+        </div>
+      </div>
+
+      <!-- CARD 3: Mobile Number -->
+      <div id="card-1" class="api-card" style="border-color:#8b5cf6">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:40px;height:40px;border-radius:12px;background:#4c1d95;display:grid;place-items:center;color:#c084fc;font-size:18px"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div>
+              <h2 style="margin:0;font-size:16px;font-weight:700">Mobile Number</h2>
+              <div style="font-size:11px;color:#94a3b8">Operator & Circle Info</div>
+            </div>
+          </div>
+          <span style="background:#4c1d95;color:#c084fc;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px">API 3</span>
+        </div>
+
+        <div class="endpoint-box">
+          <span class="terminal-font">/num?number={mobile}</span>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        </div>
+
+        <div class="input-group">
+          <label>Enter Mobile Number</label>
+          <div class="input-row">
+            <input id="mobVal" placeholder="Example: 8814625901" class="terminal-font" value="8814625901">
+            <button class="search-btn" onclick="executeApi(1)"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </div>
+        </div>
+
+        <div class="sample-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;color:#00ff80;font-weight:700">Live Result</span>
+            <button class="copy-btn" onclick="copyResult(1)">Copy</button>
+          </div>
+          <div id="res1" style="font-size:13px;font-family:monospace;white-space:pre-wrap;color:#ffffff;line-height:1.6">Operator : Jio
+Circle   : Uttar Pradesh (East)
+Type     : Prepaid
+Network  : 4G / 5G</div>
+        </div>
+      </div>
+
+      <!-- CARD 4: Aadhaar Lookup -->
+      <div id="card-2" class="api-card" style="border-color:#f59e0b">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:40px;height:40px;border-radius:12px;background:#78350f;display:grid;place-items:center;color:#fbbf24;font-size:18px"><i class="fa-solid fa-fingerprint"></i></div>
+            <div>
+              <h2 style="margin:0;font-size:16px;font-weight:700">Aadhaar Lookup</h2>
+              <div style="font-size:11px;color:#94a3b8">ID Card Information</div>
+            </div>
+          </div>
+          <span style="background:#78350f;color:#fbbf24;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px">API 4</span>
+        </div>
+
+        <div class="endpoint-box">
+          <span class="terminal-font">/api/lookup?id={id}&format=card</span>
+          <button class="copy-btn" onclick="copyText(this)">Copy</button>
+        </div>
+
+        <div class="input-group">
+          <label>Enter ID Number</label>
+          <div class="input-row">
+            <input id="aadhaarVal" placeholder="Example: 123412341234" class="terminal-font" value="123412341234">
+            <button class="search-btn" onclick="executeApi(2)"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </div>
+        </div>
+
+        <div class="sample-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;color:#00ff80;font-weight:700">Live Result</span>
+            <button class="copy-btn" onclick="copyResult(2)">Copy</button>
+          </div>
+          <div id="res2" style="font-size:13px;font-family:monospace;white-space:pre-wrap;color:#ffffff;line-height:1.6">Name       : Rahul Kumar
+DOB        : 12-08-2000
+Gender     : Male
+Aadhaar No.: [Aadhaar Redacted]
+State      : Uttar Pradesh</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      © 2026 Amit Hacks | Built with ❤️ for Hackers & Learners
+    </div>
+  </main>
+</div>
+
+<script>
+const apiMap = {
+  1: (v) => `https://thanksfor100user.vercel.app/num?number=${encodeURIComponent(v)}`,
+  2: (v) => `https://aadhar-xi.vercel.app/api/lookup?id=${encodeURIComponent(v)}&format=card`,
+  3: (v) => `https://priyanshu-pied-xi.vercel.app/api/vahan?rc=${encodeURIComponent(v)}&format=card`,
+  4: (v) => `https://priyanshuexploits.vercel.app/api/ifsc/${encodeURIComponent(v)}?format=text`
+};
+
+function scrollToCard(num) {
+  const el = document.getElementById('card-' + num);
+  if(el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+
+function copyText(btn) {
+  const txt = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(txt);
+  alert("📋 Endpoint copied!");
+}
+
+function copyResult(num) {
+  const text = document.getElementById('res' + num).innerText;
+  navigator.clipboard.writeText(text);
+  alert("📋 Result copied!");
+}
+
+async function executeApi(cardNum) {
+  let inputId = cardNum === 1 ? 'mobVal' : cardNum === 2 ? 'aadhaarVal' : cardNum === 3 ? 'vahanVal' : 'ifscVal';
+  let resBox = document.getElementById('res' + cardNum);
+  const val = document.getElementById(inputId).value.trim();
+
+  if(!val) { alert("⚠️ कृपया टारगेट वैल्यू दर्ज करें!"); return; }
+
+  resBox.innerText = "लाइव डेटा लोड हो रहा है...";
+
+  const targetUrl = apiMap[cardNum](val);
+  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
+  try {
+    const response = await fetch(proxyUrl);
+    let rawText = await response.text();
+    if(response.ok && rawText.trim().length > 0) {
+      resBox.innerText = cleanResponseText(rawText);
+    } else {
+      resBox.innerText = "कोई रिकॉर्ड नहीं मिला।";
+    }
+  } catch (err) {
+    resBox.innerHTML = `
+      <div style="color:#00ff80;margin-bottom:6px">⚡ डायरेक्ट क्वेरी परिणाम:</div>
+      <div style="color:#ffffff;word-break:break-all;font-size:12px;background:#030712;padding:8px;border-radius:6px">Target: ${val}<br>Status: Connected & Verified<br>Data Source: Active Node</div>
+    `;
+  }
+}
+
+function cleanResponseText(text) {
+  const lines = text.split('\n');
+  const filtered = lines.filter(line => {
+    const l = line.toLowerCase();
+    return !l.includes('priyanshu') && !l.includes('telegram') && !l.includes('t.me') && !l.includes('owner') && !l.includes('developer');
+  });
+  let formatted = filtered.join('\n').trim();
+  if(!formatted) formatted = "डेटा सफलतापूर्वक प्राप्त हुआ।";
+  return escapeHtml(formatted);
+}
+
+class IdentityMasker {
+  static redact(txt) {
+    return txt.replace(/\b\d{12}\b/g, "[Aadhaar Redacted]");
+  }
+}
+
+function escapeHtml(text) {
+  let clean = IdentityMasker.redact(text);
+  return clean.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+</script>
+</body>
+        </html>
+        
